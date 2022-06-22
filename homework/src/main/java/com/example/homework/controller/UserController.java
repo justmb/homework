@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/student")
+@RequestMapping(path = "/v1/api")
 public class UserController {
 
     private final UserService userServices;
