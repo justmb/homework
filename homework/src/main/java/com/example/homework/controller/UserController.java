@@ -1,8 +1,9 @@
 package com.example.homework.controller;
 
 import com.example.homework.entity.User;
-import com.example.homework.service.UserService;
+import com.example.homework.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,20 +12,26 @@ import java.util.List;
 @RequestMapping(path = "/v1/api")
 public class UserController {
 
-    private final UserService userServices;
+    private final UserServiceImpl userServicesImpl;
 
     @Autowired
-    public UserController(UserService userServices) {
-        this.userServices = userServices;
+    public UserController(UserServiceImpl userServicesImpl) {
+        this.userServicesImpl = userServicesImpl;
     }
 
-    @GetMapping
-    public List<User> getUsers() {
-        return userServices.getUsers();
+    @GetMapping("/user/get")
+    public ResponseEntity<List<User>> getUsers(@RequestHeader(name = "permissionName", required = false) String permissionName ) {
+        return ResponseEntity.ok(userServicesImpl.getAll(permissionName));
     }
 
-    @PostMapping
+    @PostMapping("/user/add")
     public void addStudent(@RequestBody User user) {
-        userServices.addUser(user);
+        userServicesImpl.addUser(user);
     }
+
+    @DeleteMapping("/user/delete/{userId}")
+    public void deleteUser(@PathVariable Long userId){
+        userServicesImpl.deleteUserById(userId);
+    }
+
 }
