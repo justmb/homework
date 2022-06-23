@@ -19,7 +19,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> getAll(String permissionName) {
-        return permissionName == null ? userRepository.findAll() : userRepository.findByUserPermission_Name(permissionName);
+        if(permissionName == null){
+            return userRepository.findAll();
+        }else {
+            return userRepository.findByUserPermission_Name(permissionName);
+        }
     }
 
     public void addUser(User user) {

@@ -20,7 +20,11 @@ public class PermissionServiceImpl implements PermissionService{
 
     @Override
     public List<Permission> getAll(String userName) {
-        return userName == null ? permissionRepository.findAll() : permissionRepository.findByUser_Name(userName);
+        if(userName == null){
+            return permissionRepository.findAll();
+        }else{
+            return permissionRepository.findByUser_Name(userName);
+        }
     }
 
     public void addPermission(Permission permission) {
